@@ -1,0 +1,16 @@
+body {
+  background-color:rgb(111, 111, 111);  
+  font-family: "Quicksand", sans-serif;
+}
+
+p {
+    color: rgb(40, 2, 69);
+}
+
+.cor {
+    color:blue;
+}
+
+#corunica {
+    color:aquamarine;
+}
