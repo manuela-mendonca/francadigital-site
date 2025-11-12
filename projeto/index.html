@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="bg-image">
+         <span class="orb orb-1"></span>
+         <span class="orb orb-2"></span>
+         <span class="orb orb-3"></span>
+    </div>
+    <main class="page">
+        <section class="grid">
+            <article class="card">
+                <h2>1- Alterar cor do site</h2>
+                <p>Escolha uma cor</p>
+                <input type="color" id="seletorCor" value="#000">
+                <button id="btnAplicarCor">Aplicar Cor</button>
+            </article>
+            <article class="card">
+                <h2>2- Galeria dinâmica </h2>
+                <p>Clique para alterar a imagem</p>
+                <div class="chip">
+                    <button class="chip" data-image="https://images.unsplash.com/photo-1762740447529-b43f0d4a2fef?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D">Praia</button>
+                    <button class="chip" data-image="https://images.unsplash.com/photo-1762710940358-e3351cc9ff34?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyNnx8fGVufDB8fHx8fA%3D%3D">Por do sol</button>
+                    <button class="chip" data-image="https://images.unsplash.com/photo-1762776345918-dbc968a5fcb0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw0MHx8fGVufDB8fHx8fA%3D%3D">Outono</button>
+                </div>
+                <div class="galeria" id="galeriHero"></div>
+            </article>
+        </section>
+    </main>
+
+
+    <script src="script.js"></script>
+</body>
+</html>
