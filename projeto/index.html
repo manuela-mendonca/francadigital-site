@@ -7,11 +7,63 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="bg-image">
-         <span class="orb orb-1"></span>
-         <span class="orb orb-2"></span>
-         <span class="orb orb-3"></span>
-    </div>
+      <canvas id="glcanvas"></canvas>
+  <script id="vertex-shader" type="x-shader/x-vertex">
+    attribute vec2 a_position;
+    void main() {
+      gl_Position = vec4(a_position, 0.0, 1.0);
+    }
+  </script>
+<script id="fragment-shader" type="x-shader/x-fragment">
+#ifdef GL_ES
+precision highp float;
+#endif
+
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+uniform float u_time;
+
+vec3 palette3(float t, float factor) {
+    vec3 a = vec3(0.5) + 0.3 * sin(vec3(0.1, 0.3, 0.5) * factor);
+    vec3 b = vec3(0.5) + 0.3 * cos(vec3(0.2, 0.4, 0.6) * factor);
+    vec3 c = vec3(1.0) + 0.5 * sin(vec3(0.3, 0.7, 0.9) * factor);
+    vec3 d = vec3(0.25, 0.4, 0.55) + 0.2 * cos(vec3(0.5, 0.6, 0.7) * factor);
+    return a + b * cos(6.28318 * (c * t + d));
+}
+
+void main() {
+    vec2 st = (gl_FragCoord.xy / u_resolution.xy) * 2.0 - 1.0;
+    st.x *= u_resolution.x/u_resolution.y;
+    vec3 color = vec3(0.0);
+
+    for (float i = 1.0; i < 6.0; i++) {
+        vec2 st0 = st;
+        float sgn = 1.0 - 2.0 * mod(i, 2.0);
+        float t = u_time * 0.02 - float(i);
+        st0 *= mat2(cos(t), sin(t), -sin(t), cos(t));
+
+        float R = length(st0);
+        float d = R * i;
+        float angle = atan(st0.y, st0.x) * 3.0;
+
+        vec3 pal = palette3(-exp((length(d) * -0.9)), abs(d) * 0.4);
+
+        float radial = exp(-R); 
+        radial *= smoothstep(1.2, 0.5, R);
+        pal *= radial;
+
+        float phase = -(d + sgn * angle) + u_time * 0.3;
+        float v = sin(phase);
+        v = max(abs(v), 0.02);
+        float w = pow(0.02 / v, 0.8);
+
+        color += pal * w;
+    }
+
+    gl_FragColor = vec4(color, 1.0);
+}
+</script>
+   
     <main class="page">
         <section class="grid">
             <article class="card">
@@ -23,17 +75,25 @@
             <article class="card">
                 <h2>2- Galeria dinâmica </h2>
                 <p>Clique para alterar a imagem</p>
-                <div class="chip">
+                <div class="chips">
                     <button class="chip" data-image="https://images.unsplash.com/photo-1762740447529-b43f0d4a2fef?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D">Praia</button>
                     <button class="chip" data-image="https://images.unsplash.com/photo-1762710940358-e3351cc9ff34?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyNnx8fGVufDB8fHx8fA%3D%3D">Por do sol</button>
                     <button class="chip" data-image="https://images.unsplash.com/photo-1762776345918-dbc968a5fcb0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw0MHx8fGVufDB8fHx8fA%3D%3D">Outono</button>
                 </div>
-                <div class="galeria" id="galeriHero"></div>
+                <div class="galeria" id="galeriaHero"></div>
             </article>
+            <article class="card">
+                <h2>3- Google Maps</h2>
+                <p>Veneza - Itália</p>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d179165.46149205885!2d12.315954665585348!3d45.440379017593024!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x477eb1daf1d63d89%3A0x7ba3c6f0bd92102f!2zVmVuZXphLCBJdMOhbGlh!5e0!3m2!1spt-PT!2sbr!4v1763404332450!5m2!1spt-PT!2sbr" width="200" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </section>
+
+      
+
+
     </main>
 
-
+    <script src="efeito.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
